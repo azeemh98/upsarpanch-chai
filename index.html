@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSARPANCH CHAI — Built By Azeem</title>
+<meta name="description" content="गुड़ की चाय — Jaggery Chai, Kulhad Tea &amp; Snacks. हर घूंट में स्वाद, हर पल में सुकून.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
+</head>
+<body>
+
+<!-- ============ GRAIN OVERLAY ============ -->
+<canvas id="grain" aria-hidden="true"></canvas>
+
+<!-- ============ CUSTOM CURSOR ============ -->
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+<!-- ============ PRELOADER ============ -->
+<div class="preloader" id="preloader">
+  <div class="preloader-inner">
+    <div class="lottie-frame lottie-frame--preloader" data-fallback="Cup of Tea (LottieFiles)">
+      <dotlottie-wc class="lottie-el" src="https://assets-v2.lottiefiles.com/a/298e81c8-1161-11ee-bd4a-03698485b9b1/GqJjkMALwZ.lottie" autoplay loop speed="1"></dotlottie-wc>
+      <span class="lottie-fallback">🫖</span>
+    </div>
+    <p class="preloader-title" id="preloaderTitle">UPSARPANCH CHAI</p>
+    <p class="preloader-sub">गुड़ की चाय · Built By Azeem</p>
+    <div class="preloader-bar"><span id="preloaderBarFill"></span></div>
+  </div>
+</div>
+
+<!-- ============ NAV ============ -->
+<header class="site-nav" id="siteNav">
+  <a href="#hero" class="nav-brand">
+    <span class="media-frame media-frame--sm" data-fallback="logo">
+      <img src="assets/images/logo.png" alt="Upsarpanch Chai logo" class="nav-logo-img">
+      <span class="media-placeholder"><span class="ph-icon">☕</span></span>
+    </span>
+    <span class="nav-brand-text">Upsarpanch<em>Chai</em></span>
+  </a>
+  <nav class="nav-links">
+    <a href="#chai" data-hover>Chai</a>
+    <a href="#menu" data-hover>Menu</a>
+    <a href="#gud" data-hover>Gud</a>
+    <a href="#comfort" data-hover>Comfort</a>
+    <a href="#finale" class="nav-cta" data-hover>Visit Us</a>
+  </nav>
+</header>
+
+<main id="smooth-wrapper">
+<div id="smooth-content">
+
+  <!-- ============ A. HERO ============ -->
+  <section class="section hero" id="hero" data-accent="hero">
+    <div class="media-frame media-frame--bg" data-fallback="hero-chai-pour.mp4">
+      <video class="bg-video" autoplay muted loop playsinline preload="auto">
+        <source src="assets/video/hero-chai-pour.mp4" type="video/mp4">
+      </video>
+      <span class="media-placeholder media-placeholder--dark">
+        <span class="ph-icon">🫖</span>
+        <span class="ph-label">hero-chai-pour.mp4</span>
+        <span class="ph-note">kulhad tea pour · steam rising · golden hour</span>
+      </span>
+    </div>
+    <div class="hero-scrim"></div>
+
+    <div class="hero-content">
+      <div class="hero-logo-badge">
+        <div class="media-frame hero-logo" data-fallback="logo-full.webp">
+          <img src="assets/images/logo-full.webp" alt="Upsarpanch Chai — गुड़ की चाय" class="hero-logo-img">
+          <span class="media-placeholder media-placeholder--dark"><span class="ph-icon">☕</span></span>
+        </div>
+      </div>
+      <p class="kicker reveal-up">गुड़ की चाय · KULHAD TEA · SNACKS</p>
+      <h1 class="hero-title" id="heroTitle">UPSARPANCH CHAI</h1>
+      <p class="hero-sub reveal-up">Built By <strong>Azeem</strong> — श्रीगोंदा, महाराष्ट्र की सुप्रसिद्ध जगह से।</p>
+      <p class="hero-tagline reveal-up">"हर घूंट में स्वाद, हर पल में सुकून"</p>
+    </div>
+
+    <div class="scroll-indicator" aria-hidden="true">
+      <div class="lottie-frame lottie-frame--scroll" data-fallback="Scroll Down Mouse (LottieFiles)">
+        <dotlottie-wc class="lottie-el" src="https://assets-v2.lottiefiles.com/a/6a140cf8-1185-11ee-aa39-f39fe7990979/yzE4tiYIMr.lottie" autoplay loop speed="1"></dotlottie-wc>
+        <span class="lottie-fallback lottie-fallback--dot"><span class="scroll-dot"></span></span>
+      </div>
+      <span class="scroll-label">SCROLL</span>
+    </div>
+  </section>
+
+  <!-- ============ C. OUR CHAI ============ -->
+  <section class="section split-section" id="chai" data-accent="coffee">
+    <div class="split-media">
+      <div class="media-frame media-frame--tall" data-fallback="chai-pour-macro.mp4">
+        <video class="fill-video" muted loop playsinline preload="metadata">
+          <source src="assets/video/chai-pour-macro.mp4" type="video/mp4">
+        </video>
+        <span class="media-placeholder">
+          <span class="ph-icon">☕</span>
+          <span class="ph-label">chai-pour-macro.mp4</span>
+          <span class="ph-note">glass tea pour, macro froth</span>
+        </span>
+      </div>
+    </div>
+    <div class="split-copy">
+      <p class="eyebrow reveal-up">OUR CHAI</p>
+      <h2 class="section-title reveal-up">Gud Ki Chai.<br>Not Sugar.</h2>
+      <p class="body-copy reveal-up">Every glass starts with real jaggery, not refined sugar — brewed strong,
+        poured hot, and priced so a chai break never feels like a splurge.
+        Six ways to drink it, one reason to come back.</p>
+      <div class="stat-row">
+        <div class="stat reveal-up"><span class="stat-num">6</span><span class="stat-label">Chai varieties</span></div>
+        <div class="stat reveal-up"><span class="stat-num">100%</span><span class="stat-label">Gud (jaggery)</span></div>
+        <div class="stat reveal-up"><span class="stat-num">₹25</span><span class="stat-label">Starting at</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ D1. THE CHAI LINE-UP — PINNED SCRUB ============ -->
+  <section class="section pin-scrub" id="lineup" data-accent="thali"
+            data-video="assets/video/chai-lineup.mp4"
+            data-labels='["NORMAL TEA ₹25","KULHAD TEA ₹30","LEMON TEA ₹30","GREEN TEA ₹30","BLACK TEA ₹30","COFFEE ₹40"]'>
+    <div class="pin-scrub-inner">
+      <div class="media-frame media-frame--bg" data-fallback="chai-lineup.mp4">
+        <video class="bg-video scrub-video" muted playsinline preload="auto">
+          <source src="assets/video/chai-lineup.mp4" type="video/mp4">
+        </video>
+        <span class="media-placeholder media-placeholder--dark">
+          <span class="ph-icon">🍵</span>
+          <span class="ph-label">chai-lineup.mp4</span>
+          <span class="ph-note">6 glasses assemble on scroll-down · scatter on scroll-up</span>
+        </span>
+      </div>
+      <div class="pin-scrim"></div>
+
+      <div class="fallback-assembly" aria-hidden="true">
+        <div class="assembly-plate"></div>
+        <div class="assembly-item item-1"><span>☕</span></div>
+        <div class="assembly-item item-2"><span>🫖</span></div>
+        <div class="assembly-item item-3"><span>🍋</span></div>
+        <div class="assembly-item item-4"><span>🍃</span></div>
+        <div class="assembly-item item-5"><span>🍵</span></div>
+        <div class="assembly-item item-6"><span>☕</span></div>
+      </div>
+
+      <p class="eyebrow eyebrow--pin">PICK YOUR CHAI</p>
+      <h2 class="section-title section-title--pin">Six Glasses,<br>One Counter.</h2>
+
+      <div class="pop-labels">
+        <span class="pop-label label-1">NORMAL TEA ₹25</span>
+        <span class="pop-label label-2">KULHAD TEA ₹30</span>
+        <span class="pop-label label-3">LEMON TEA ₹30</span>
+        <span class="pop-label label-4">GREEN TEA ₹30</span>
+        <span class="pop-label label-5">BLACK TEA ₹30</span>
+        <span class="pop-label label-6">COFFEE ₹40</span>
+      </div>
+
+      <div class="scrub-progress"><span></span></div>
+    </div>
+  </section>
+
+  <!-- ============ D2. SNACKS, ELEVATED — PINNED SCRUB ============ -->
+  <section class="section pin-scrub pin-scrub--street" id="snacks" data-accent="street"
+            data-video="assets/video/exploded-snacks.mp4"
+            data-labels='["GUD KA CREAM ROLL","AALU PATTIES","PANEER PATTIES","MASALA MAGGI"]'>
+    <div class="pin-scrub-inner">
+      <div class="media-frame media-frame--bg" data-fallback="exploded-snacks.mp4">
+        <video class="bg-video scrub-video" muted playsinline preload="auto">
+          <source src="assets/video/exploded-snacks.mp4" type="video/mp4">
+        </video>
+        <span class="media-placeholder media-placeholder--dark">
+          <span class="ph-icon">🥐</span>
+          <span class="ph-label">exploded-snacks.mp4</span>
+          <span class="ph-note">layers fold in on scroll-down · burst apart on scroll-up</span>
+        </span>
+      </div>
+      <div class="pin-scrim pin-scrim--street"></div>
+
+      <div class="fallback-assembly" aria-hidden="true">
+        <div class="assembly-plate assembly-plate--street"></div>
+        <div class="assembly-item item-1"><span>🥐</span></div>
+        <div class="assembly-item item-2"><span>🥔</span></div>
+        <div class="assembly-item item-3"><span>🧀</span></div>
+        <div class="assembly-item item-4"><span>🍜</span></div>
+      </div>
+
+      <p class="eyebrow eyebrow--pin eyebrow--street">SNACKS, ELEVATED</p>
+      <h2 class="section-title section-title--pin">The Side Of<br>The Counter.</h2>
+
+      <div class="pop-labels">
+        <span class="pop-label label-1">GUD KA CREAM ROLL</span>
+        <span class="pop-label label-2">AALU PATTIES</span>
+        <span class="pop-label label-3">PANEER PATTIES</span>
+        <span class="pop-label label-4">MASALA MAGGI</span>
+      </div>
+
+      <div class="scrub-progress scrub-progress--street"><span></span></div>
+    </div>
+  </section>
+
+  <!-- ============ E. FULL PRICED MENU ============ -->
+  <section class="section menu-section" id="menu" data-accent="thali">
+    <p class="eyebrow reveal-up">THE FULL MENU</p>
+    <h2 class="section-title section-title--center reveal-up">Priced Simply.<br>Poured Honestly.</h2>
+
+    <div class="menu-columns">
+      <div class="menu-col reveal-up">
+        <h3 class="menu-col-title">Tea <span class="menu-col-title-hi">चाय</span></h3>
+        <ul class="menu-list">
+          <li><span class="menu-item-name">Normal Tea <em>नॉर्मल चाय</em></span><span class="menu-item-price">₹25</span></li>
+          <li><span class="menu-item-name">Kulhad Tea <em>कुल्हड़ चाय</em></span><span class="menu-item-price">₹30</span></li>
+          <li><span class="menu-item-name">Coffee <em>कॉफ़ी</em></span><span class="menu-item-price">₹40</span></li>
+          <li><span class="menu-item-name">Lemon Tea <em>लेमन टी</em></span><span class="menu-item-price">₹30</span></li>
+          <li><span class="menu-item-name">Green Tea <em>ग्रीन टी</em></span><span class="menu-item-price">₹30</span></li>
+          <li><span class="menu-item-name">Black Tea <em>ब्लैक टी</em></span><span class="menu-item-price">₹30</span></li>
+        </ul>
+      </div>
+      <div class="menu-col reveal-up">
+        <h3 class="menu-col-title">Snacks <span class="menu-col-title-hi">स्नैक्स</span></h3>
+        <ul class="menu-list">
+          <li><span class="menu-item-name">Gud Ka Cream Roll <em>गुड़ का क्रीम रोल</em></span><span class="menu-item-price">₹15</span></li>
+          <li><span class="menu-item-name">Gud Ki Nankhatai <em>गुड़ की नानखटाई</em></span><span class="menu-item-price">₹15</span></li>
+          <li><span class="menu-item-name">Gud Ka Makkhan Toast <em>गुड़ का मक्खन टोस्ट</em></span><span class="menu-item-price">₹7</span></li>
+          <li><span class="menu-item-name">Bun Makkhan <em>बन मक्खन</em></span><span class="menu-item-price">₹30</span></li>
+          <li><span class="menu-item-name">Aalu Patties <em>आलू पैटिस</em></span><span class="menu-item-price">₹30</span></li>
+          <li><span class="menu-item-name">Paneer Patties <em>पनीर पैटिस</em></span><span class="menu-item-price">₹30</span></li>
+          <li><span class="menu-item-name">Maggi <em>मैगी</em></span><span class="menu-item-price">₹50</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="menu-tagline reveal-up">"स्वाद जो दिल को छू जाए"</p>
+  </section>
+
+  <!-- ============ F. GUD — THE STAR INGREDIENT ============ -->
+  <section class="section sweets-section" id="gud" data-accent="sweets">
+    <div class="media-frame media-frame--wide" data-fallback="jaggery-macro.mp4">
+      <video class="fill-video" muted loop playsinline preload="metadata">
+        <source src="assets/video/jaggery-macro.mp4" type="video/mp4">
+      </video>
+      <span class="media-placeholder">
+        <span class="ph-icon">🍯</span>
+        <span class="ph-label">jaggery-macro.mp4</span>
+        <span class="ph-note">raw jaggery block melting into chai, turmeric-gold light</span>
+      </span>
+    </div>
+    <h2 class="section-title section-title--center reveal-up">Gud, The Star Ingredient</h2>
+
+    <div class="hscroll-track" id="sweetsTrack">
+      <div class="hscroll-pin">
+        <div class="hscroll-cards" id="sweetsCards">
+          <div class="sweet-card">
+            <div class="media-frame media-frame--card" data-fallback="img-cream-roll.jpg">
+              <img src="assets/images/img-cream-roll.jpg" alt="Gud Ka Cream Roll">
+              <span class="media-placeholder"><span class="ph-icon">🥐</span><span class="ph-label">img-cream-roll.jpg</span></span>
+            </div>
+            <p class="card-caption">Gud Ka Cream Roll — ₹15</p>
+          </div>
+          <div class="sweet-card">
+            <div class="media-frame media-frame--card" data-fallback="img-nankhatai.jpg">
+              <img src="assets/images/img-nankhatai.jpg" alt="Gud Ki Nankhatai">
+              <span class="media-placeholder"><span class="ph-icon">🍪</span><span class="ph-label">img-nankhatai.jpg</span></span>
+            </div>
+            <p class="card-caption">Gud Ki Nankhatai — ₹15</p>
+          </div>
+          <div class="sweet-card">
+            <div class="media-frame media-frame--card" data-fallback="img-makkhan-toast.jpg">
+              <img src="assets/images/img-makkhan-toast.jpg" alt="Gud Ka Makkhan Toast">
+              <span class="media-placeholder"><span class="ph-icon">🍞</span><span class="ph-label">img-makkhan-toast.jpg</span></span>
+            </div>
+            <p class="card-caption">Gud Ka Makkhan Toast — ₹7</p>
+          </div>
+          <div class="sweet-card">
+            <div class="media-frame media-frame--card" data-fallback="img-jaggery-blocks.jpg">
+              <img src="assets/images/img-jaggery-blocks.jpg" alt="Raw jaggery blocks">
+              <span class="media-placeholder"><span class="ph-icon">🟤</span><span class="ph-label">img-jaggery-blocks.jpg</span></span>
+            </div>
+            <p class="card-caption">Raw Gud, Sourced Local</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ G. COMFORT FOOD (Bun Makkhan / Maggi) ============ -->
+  <section class="section cold-section" id="comfort" data-accent="cold">
+    <div class="media-frame media-frame--bg" data-fallback="comfort-food.mp4">
+      <video class="bg-video" muted loop playsinline preload="metadata">
+        <source src="assets/video/comfort-food.mp4" type="video/mp4">
+      </video>
+      <span class="media-placeholder media-placeholder--dark">
+        <span class="ph-icon">🍜</span>
+        <span class="ph-label">comfort-food.mp4</span>
+        <span class="ph-note">split shot: bun makkhan ↔ masala maggi steam</span>
+      </span>
+    </div>
+    <div class="cold-scrim"></div>
+
+    <div class="cold-split">
+      <div class="cold-half cold-half--mango">
+        <p class="eyebrow reveal-up">COMFORT FOOD</p>
+        <h2 class="section-title reveal-up">Bun Makkhan</h2>
+        <p class="body-copy reveal-up">Soft bun, a slab of butter melting right in front of you. ₹30, gone in two bites.</p>
+      </div>
+      <div class="cold-divider" aria-hidden="true"></div>
+      <div class="cold-half cold-half--matcha">
+        <p class="eyebrow reveal-up">COMFORT FOOD</p>
+        <h2 class="section-title reveal-up">Masala Maggi</h2>
+        <p class="body-copy reveal-up">Street-style, extra masala, made to order. ₹50, the tapri classic.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ H. INGREDIENT / TEXTURE GALLERY ============ -->
+  <section class="section gallery-section" id="pantry" data-accent="hero">
+    <p class="eyebrow reveal-up">FROM THE COUNTER</p>
+    <div class="hscroll-track" id="galleryTrack">
+      <div class="hscroll-pin">
+        <div class="hscroll-cards hscroll-cards--gallery" id="galleryCards">
+          <div class="gallery-card" data-speed="0.7">
+            <div class="media-frame media-frame--card" data-fallback="img-jaggery-blocks.jpg">
+              <img src="assets/images/img-jaggery-blocks.jpg" alt="Jaggery blocks">
+              <span class="media-placeholder"><span class="ph-icon">🟤</span><span class="ph-label">img-jaggery-blocks.jpg</span></span>
+            </div>
+            <p class="card-caption">Gud (Jaggery)</p>
+          </div>
+          <div class="gallery-card" data-speed="1.15">
+            <div class="media-frame media-frame--card" data-fallback="img-kulhad-cups.jpg">
+              <img src="assets/images/img-kulhad-cups.jpg" alt="Kulhad clay cups">
+              <span class="media-placeholder"><span class="ph-icon">🫖</span><span class="ph-label">img-kulhad-cups.jpg</span></span>
+            </div>
+            <p class="card-caption">Kulhad Cups</p>
+          </div>
+          <div class="gallery-card" data-speed="0.85">
+            <div class="media-frame media-frame--card" data-fallback="img-spices-flatlay.jpg">
+              <img src="assets/images/img-spices-flatlay.jpg" alt="Spices flatlay">
+              <span class="media-placeholder"><span class="ph-icon">🌶️</span><span class="ph-label">img-spices-flatlay.jpg</span></span>
+            </div>
+            <p class="card-caption">Masala</p>
+          </div>
+          <div class="gallery-card" data-speed="1.05">
+            <div class="media-frame media-frame--card" data-fallback="img-tea-leaves.jpg">
+              <img src="assets/images/img-tea-leaves.jpg" alt="Tea Leaves">
+              <span class="media-placeholder"><span class="ph-icon">🍃</span><span class="ph-label">img-tea-leaves.jpg</span></span>
+            </div>
+            <p class="card-caption">Tea Leaves</p>
+          </div>
+          <div class="gallery-card" data-speed="0.9">
+            <div class="media-frame media-frame--card" data-fallback="img-cutting-chai.jpg">
+              <img src="assets/images/img-cutting-chai.jpg" alt="Cutting Chai">
+              <span class="media-placeholder"><span class="ph-icon">🥃</span><span class="ph-label">img-cutting-chai.jpg</span></span>
+            </div>
+            <p class="card-caption">Cutting Chai</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ I. FINALE / CTA ============ -->
+  <section class="section finale" id="finale" data-accent="footer">
+    <div class="media-frame media-frame--bg" data-fallback="finale-counter-spread.mp4">
+      <video class="bg-video" id="finaleVideo" muted loop playsinline preload="metadata">
+        <source src="assets/video/finale-counter-spread.mp4" type="video/mp4">
+      </video>
+      <span class="media-placeholder media-placeholder--dark">
+        <span class="ph-icon">🍛</span>
+        <span class="ph-label">finale-counter-spread.mp4</span>
+        <span class="ph-note">full counter, overhead pull-back, golden hour</span>
+      </span>
+    </div>
+    <div class="finale-scrim"></div>
+
+    <div class="finale-content">
+      <div class="lottie-frame lottie-frame--steam" data-fallback="Steam From The Cup (LottieFiles)" aria-hidden="true">
+        <dotlottie-wc class="lottie-el" src="https://assets-v2.lottiefiles.com/a/c4e7661c-1184-11ee-99bc-63321f9b7c99/25mrs8O5Bj.lottie" autoplay loop speed="0.8"></dotlottie-wc>
+        <span class="lottie-fallback">💨</span>
+      </div>
+      <p class="eyebrow reveal-up">जॉइन करें हमारे साथ</p>
+      <h2 class="section-title section-title--center reveal-up">एक कप,<br>एक सुकून.</h2>
+      <button class="cta-button" id="reserveBtn" data-magnetic>
+        <span>ORDER YOUR CHAI</span>
+      </button>
+      <p class="finale-sub reveal-up">Franchise enquiries welcome — <a href="#" data-hover>get in touch</a>.</p>
+    </div>
+
+    <footer class="site-footer">
+      <div class="media-frame footer-logo" data-fallback="logo-full.webp">
+        <img src="assets/images/logo-full.webp" alt="Upsarpanch Chai — गुड़ की चाय">
+        <span class="media-placeholder"><span class="ph-icon">☕</span><span class="ph-label">logo-full.webp</span></span>
+      </div>
+      <p class="footer-thanks">धन्यवाद! फिर मिलेंगे...</p>
+      <p>Built by <strong>Azeem</strong> — © 2026 Upsarpanch Chai</p>
+    </footer>
+  </section>
+
+</div>
+</main>
+
+<!-- ============ SCRIPTS ============ -->
+<script type="module" src="https://cdn.jsdelivr.net/npm/@lottiefiles/dotlottie-wc@0.9.27/dist/dotlottie-wc.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
