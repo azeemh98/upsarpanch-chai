@@ -137,6 +137,14 @@
         // listener is attached, so check current readiness first.
         if (video.readyState >= 2) {
           markLoaded();
+        } else if (video.currentSrc === "" && video.querySelector("source")) {
+          // A <source media="..."> that excludes the current viewport (e.g.
+          // the scrub videos, desktop-only) leaves the video with no
+          // selected source at all — that's *not* a load failure, so the
+          // browser never fires 'error' for it, and it would otherwise sit
+          // blank until the 2.5s safety-net timeout below. Show the
+          // fallback immediately instead of waiting.
+          markMissing();
         } else {
           video.addEventListener("loadeddata", markLoaded);
         }
@@ -378,14 +386,38 @@
     gsap.set(labels, { opacity: 0, y: 14 });
 
     // Mobile browsers (iOS Safari especially) seek video very slowly during
-    // scroll — repeatedly setting currentTime while pinned is one of the
-    // heaviest things this page can ask a phone to do. Mobile always uses
-    // the lightweight CSS/GSAP fallback assembly instead of real video
-    // scrubbing; only desktop attempts it.
+    // scroll, and `pin:true` itself fights the dynamic address-bar-driven
+    // viewport resize on phones — the pin's start/end measurements can get
+    // thrown off mid-scroll and leave the section visually stuck showing
+    // nothing. Rather than fight that, mobile skips pinning and video
+    // entirely: the assembly just plays once as a normal reveal animation
+    // when the section scrolls into view, the same pattern used for every
+    // other piece of content on the page. Desktop keeps the full pinned
+    // video-scrub (or CSS fallback) experience.
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
+    if (isMobile) {
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: section, start: "top 70%", toggleActions: "play none none reverse" }
+      });
+      if (plate) tl.to(plate, { opacity: 1, scale: 1, duration: 0.55, ease: "power3.out" }, 0);
+      items.forEach((item, i) => {
+        const tx = parseFloat(item.dataset.targetX);
+        const ty = parseFloat(item.dataset.targetY);
+        tl.to(item, {
+          x: tx, y: ty, rotate: 0, scale: 1, opacity: 1,
+          duration: 0.55, ease: "back.out(1.5)"
+        }, i * 0.09);
+      });
+      labels.forEach((label, i) => {
+        tl.to(label, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.25 + i * 0.1);
+      });
+      if (progressBar) gsap.set(progressBar, { width: "100%" });
+      return;
+    }
+
     let videoReady = false;
-    if (video && !isMobile) {
+    if (video) {
       // same fix as initMediaFallbacks(): fast-loading local video can hit
       // 'loadedmetadata' before this listener attaches (boot() runs after
       // the preloader delay), so check current readiness first too.
@@ -408,10 +440,7 @@
     ScrollTrigger.create({
       trigger: section,
       start: "top top",
-      // shorter pin on mobile — a long "stuck" scroll distance reads as
-      // lag/unresponsiveness on a phone even when the animation itself
-      // is running fine
-      end: isMobile ? "+=100%" : "+=180%",
+      end: "+=180%",
       pin: true,
       scrub: true,
       onUpdate: (self) => {

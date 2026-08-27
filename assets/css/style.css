@@ -323,6 +323,14 @@ a{ color:inherit; text-decoration:none; }
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center;
 }
+@media (max-width:768px){
+  /* not pinned on mobile (see initPinScrub's isMobile branch) — 100vh on
+     phones is taller than the visible area behind the address bar, which
+     just leaves extra blank space at the bottom; svh matches what's
+     actually visible. Falls back to the 100vh above on browsers that don't
+     support svh. */
+  .pin-scrub, .pin-scrub-inner{ height:100svh; }
+}
 .pin-scrim{
   position:absolute; inset:0; z-index:1;
   background:radial-gradient(ellipse at center, rgba(20,14,8,.25) 0%, rgba(15,10,6,.72) 100%);
