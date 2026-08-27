@@ -274,11 +274,11 @@
     // parallax zoom-out on scroll start
     gsap.to(hero.querySelectorAll(".media-frame--bg"), {
       scale: 1.18,
-      scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: 0.6 }
+      scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true }
     });
     gsap.to(hero.querySelector(".hero-content"), {
       opacity: 0, y: -60,
-      scrollTrigger: { trigger: hero, start: "10% top", end: "70% top", scrub: 0.6 }
+      scrollTrigger: { trigger: hero, start: "10% top", end: "70% top", scrub: true }
     });
   }
 
@@ -380,7 +380,7 @@
       start: "top top",
       end: "+=180%",
       pin: true,
-      scrub: 1,
+      scrub: true,
       onUpdate: (self) => {
         const p = self.progress;
 
@@ -452,7 +452,7 @@
           trigger: track,
           start: "top top",
           end: () => "+=" + distance,
-          scrub: 0.6,
+          scrub: true,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             if (!parallax) return;
@@ -483,7 +483,7 @@
     gsap.to(finale.querySelectorAll(".media-frame--bg"), {
       yPercent: 14,
       ease: "none",
-      scrollTrigger: { trigger: finale, start: "top bottom", end: "bottom top", scrub: 0.6 }
+      scrollTrigger: { trigger: finale, start: "top bottom", end: "bottom top", scrub: true }
     });
   }
 
