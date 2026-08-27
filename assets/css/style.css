@@ -399,6 +399,21 @@ a{ color:inherit; text-decoration:none; }
 }
 .gallery-card .card-caption{ text-align:center; font-size:1rem; letter-spacing:.02em; }
 
+/* Mobile: plain native touch-scroll carousel instead of the pinned
+   scroll-jack (see initHScroll's matchMedia split in main.js) — pin+scrub
+   fights viewport-resize-on-scroll and native momentum scroll on phones,
+   and is one of the heaviest things a mobile CPU can be asked to do here. */
+@media (max-width:768px){
+  .hscroll-track{ height:auto; }
+  .hscroll-pin{
+    position:static; height:auto; overflow-x:auto; overflow-y:visible;
+    -webkit-overflow-scrolling:touch; scroll-snap-type:x proximity;
+    padding-bottom:.5rem;
+  }
+  .hscroll-cards{ will-change:auto; }
+  .sweet-card, .gallery-card{ scroll-snap-align:start; }
+}
+
 /* ==========================================================================
    FULL MENU (priced list)
    ========================================================================== */

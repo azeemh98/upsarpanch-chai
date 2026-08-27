@@ -203,6 +203,29 @@
   }
 
   /* ------------------------------------------------------------------ *
+   * 3d. PAUSE OFF-SCREEN LOTTIE ANIMATIONS
+   *     Each <dotlottie-wc> keeps its own render loop going indefinitely
+   *     once started — the scroll-indicator and finale-steam loops were
+   *     animating continuously for the entire session even while scrolled
+   *     completely out of view. Pause/resume with the same
+   *     IntersectionObserver pattern used for video.
+   * ------------------------------------------------------------------ */
+  function initLottieVisibilityPausing() {
+    const els = document.querySelectorAll("dotlottie-wc");
+    if (!els.length || !("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const el = entry.target;
+        const method = entry.isIntersecting ? "play" : "pause";
+        if (typeof el[method] === "function") {
+          try { el[method](); } catch (e) { /* not fatal — decorative element */ }
+        }
+      });
+    }, { threshold: 0.05 });
+    els.forEach((el) => io.observe(el));
+  }
+
+  /* ------------------------------------------------------------------ *
    * 4. LENIS SMOOTH SCROLL <-> SCROLLTRIGGER
    * ------------------------------------------------------------------ */
   function initSmoothScroll() {
@@ -354,8 +377,15 @@
     if (plate) gsap.set(plate, { opacity: 0, scale: 0.6, xPercent: -50, yPercent: -50, left: "50%", top: "50%" });
     gsap.set(labels, { opacity: 0, y: 14 });
 
+    // Mobile browsers (iOS Safari especially) seek video very slowly during
+    // scroll — repeatedly setting currentTime while pinned is one of the
+    // heaviest things this page can ask a phone to do. Mobile always uses
+    // the lightweight CSS/GSAP fallback assembly instead of real video
+    // scrubbing; only desktop attempts it.
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
     let videoReady = false;
-    if (video) {
+    if (video && !isMobile) {
       // same fix as initMediaFallbacks(): fast-loading local video can hit
       // 'loadedmetadata' before this listener attaches (boot() runs after
       // the preloader delay), so check current readiness first too.
@@ -378,7 +408,10 @@
     ScrollTrigger.create({
       trigger: section,
       start: "top top",
-      end: "+=180%",
+      // shorter pin on mobile — a long "stuck" scroll distance reads as
+      // lag/unresponsiveness on a phone even when the animation itself
+      // is running fine
+      end: isMobile ? "+=100%" : "+=180%",
       pin: true,
       scrub: true,
       onUpdate: (self) => {
@@ -435,42 +468,64 @@
     const cards = document.getElementById(cardsId);
     if (!track || !cards) return;
 
-    function build() {
-      ScrollTrigger.getAll().forEach((st) => { if (st.vars.id === trackId) st.kill(); });
+    // Pin-and-scroll-jack horizontal galleries are a well-known jank source
+    // on mobile (viewport-height recalculation as the address bar shows/
+    // hides fights ScrollTrigger's pin math, and it fights native touch
+    // momentum scroll too). ScrollTrigger.matchMedia() cleanly swaps between
+    // the desktop scroll-jack and a plain native touch-scroll carousel
+    // (styled in CSS) on mobile, and re-evaluates on breakpoint changes
+    // (e.g. orientation flip) with automatic cleanup.
+    ScrollTrigger.matchMedia({
+      "(min-width: 769px)": function () {
+        ScrollTrigger.getAll().forEach((st) => { if (st.vars.id === trackId) st.kill(); });
 
-      const totalWidth = cards.scrollWidth;
-      const viewport = window.innerWidth;
-      const distance = Math.max(0, totalWidth - viewport + 96);
+        const totalWidth = cards.scrollWidth;
+        const viewport = window.innerWidth;
+        const distance = Math.max(0, totalWidth - viewport + 96);
 
-      track.style.height = (distance > 0 ? (distance / viewport) * 100 + 100 : 140) + "vh";
+        track.style.height = (distance > 0 ? (distance / viewport) * 100 + 100 : 140) + "vh";
 
-      const st = gsap.to(cards, {
-        x: -distance,
-        ease: "none",
-        scrollTrigger: {
-          id: trackId,
-          trigger: track,
-          start: "top top",
-          end: () => "+=" + distance,
-          scrub: true,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            if (!parallax) return;
-            const p = self.progress;
-            cards.querySelectorAll("[data-speed]").forEach((card) => {
-              const speed = parseFloat(card.dataset.speed) || 1;
-              const offset = (p - 0.5) * 60 * (speed - 1);
-              gsap.set(card, { y: offset });
-            });
+        gsap.to(cards, {
+          x: -distance,
+          ease: "none",
+          scrollTrigger: {
+            id: trackId,
+            trigger: track,
+            start: "top top",
+            end: () => "+=" + distance,
+            scrub: true,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              if (!parallax) return;
+              const p = self.progress;
+              cards.querySelectorAll("[data-speed]").forEach((card) => {
+                const speed = parseFloat(card.dataset.speed) || 1;
+                const offset = (p - 0.5) * 60 * (speed - 1);
+                gsap.set(card, { y: offset });
+              });
+            }
           }
-        }
-      });
-    }
+        });
 
-    build();
-    window.addEventListener("resize", () => {
-      clearTimeout(window.__hsResizeTO);
-      window.__hsResizeTO = setTimeout(() => ScrollTrigger.refresh(), 250);
+        const onResize = () => {
+          clearTimeout(window.__hsResizeTO);
+          window.__hsResizeTO = setTimeout(() => ScrollTrigger.refresh(), 250);
+        };
+        window.addEventListener("resize", onResize);
+
+        return () => {
+          window.removeEventListener("resize", onResize);
+          track.style.height = "";
+          gsap.set(cards, { x: 0, y: 0, clearProps: "transform" });
+        };
+      },
+      "(max-width: 768px)": function () {
+        // Native horizontal touch-scroll (see .hscroll-cards mobile CSS) —
+        // no GSAP or ScrollTrigger involved at all, just the browser's own
+        // (far cheaper) momentum scrolling.
+        track.style.height = "";
+        gsap.set(cards, { x: 0, y: 0, clearProps: "transform" });
+      }
     });
   }
 
@@ -506,6 +561,7 @@
     initGrain();
     initMediaFallbacks();
     initLottieFallbacks();
+    initLottieVisibilityPausing();
     initVideoVisibilityPausing();
     const lenis = initSmoothScroll();
     window.__lenis = lenis; // debug hook — safe to leave, used by QA/dev tools only
