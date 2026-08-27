@@ -26,14 +26,17 @@
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
 
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      draw();
-    }
+    // Draw into a small fixed-size buffer and let CSS (width/height:100vw/100vh
+    // on the canvas element) upscale it — a full-viewport buffer (e.g. 1920x1080
+    // = ~2M pixels) redrawn on an interval was a real, measurable jank source.
+    // A 240x240 buffer is ~35x fewer pixels and visually indistinguishable at
+    // 3% opacity.
+    const TILE = 240;
+    canvas.width = TILE;
+    canvas.height = TILE;
+
     function draw() {
-      const w = canvas.width, h = canvas.height;
-      const imgData = ctx.createImageData(w, h);
+      const imgData = ctx.createImageData(TILE, TILE);
       const buf = imgData.data;
       for (let i = 0; i < buf.length; i += 4) {
         const v = Math.random() * 255;
@@ -42,10 +45,10 @@
       }
       ctx.putImageData(imgData, 0, 0);
     }
-    window.addEventListener("resize", resize);
-    resize();
-    // gently re-roll the noise every so often (cheap, avoids a static look)
-    setInterval(draw, 1400);
+    draw();
+    // occasional reroll for a subtle "living" grain feel — cheap now that the
+    // buffer is tiny, and slower than before so it's never a stutter source.
+    setInterval(draw, 3000);
   }
 
   /* ------------------------------------------------------------------ *
@@ -158,7 +161,30 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * 3b. LOTTIE FALLBACKS (LottieFiles dotlottie-wc web component)
+   * 3b. PAUSE OFF-SCREEN VIDEOS
+   *     Every autoplay/loop background video was decoding continuously
+   *     regardless of scroll position — with 5 HD videos that's a lot of
+   *     simultaneous work and a real source of scroll jank. Pause each one
+   *     the moment it leaves the viewport, resume when it re-enters.
+   *     (The two pinned "scrub" videos aren't autoplay — their currentTime
+   *     is driven by scroll and ScrollTrigger already gates that to when
+   *     the pin is active — so they're untouched here.)
+   * ------------------------------------------------------------------ */
+  function initVideoVisibilityPausing() {
+    const videos = document.querySelectorAll("video[autoplay]");
+    if (!videos.length || !("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const v = entry.target;
+        if (entry.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      });
+    }, { threshold: 0.1 });
+    videos.forEach((v) => io.observe(v));
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 3c. LOTTIE FALLBACKS (LottieFiles dotlottie-wc web component)
    *     Same graceful pattern as media: a static glyph shows until the
    *     animation reports 'load'; stays put if it errors or the CDN/
    *     script is blocked, so nothing ever breaks layout.
@@ -340,6 +366,15 @@
       else video.addEventListener("loadedmetadata", markReady);
     }
 
+    // Setting video.currentTime is expensive (browsers often re-seek to the
+    // nearest keyframe each time) — doing it on every single scroll tick
+    // (up to ~60/sec with Lenis's smooth interpolation) was a major jank
+    // source. Cap real seeks to ~24/sec; everything else (progress bar,
+    // labels, fallback assembly) still updates every frame since those are
+    // cheap.
+    let lastSeek = 0;
+    const SEEK_INTERVAL_MS = 42;
+
     ScrollTrigger.create({
       trigger: section,
       start: "top top",
@@ -352,7 +387,11 @@
         if (progressBar) progressBar.style.width = (p * 100) + "%";
 
         if (videoReady) {
-          video.currentTime = p * video.duration;
+          const now = performance.now();
+          if (now - lastSeek >= SEEK_INTERVAL_MS) {
+            video.currentTime = p * video.duration;
+            lastSeek = now;
+          }
         } else {
           // fallback assembly, driven purely by scroll progress
           const assembleP = gsap.utils.clamp(0, 1, p / 0.75); // finishes assembling by 75%
@@ -467,6 +506,7 @@
     initGrain();
     initMediaFallbacks();
     initLottieFallbacks();
+    initVideoVisibilityPausing();
     const lenis = initSmoothScroll();
     window.__lenis = lenis; // debug hook — safe to leave, used by QA/dev tools only
 
